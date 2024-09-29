@@ -1,0 +1,44 @@
+pip install Flask
+project/
+├── app.py           # Основний файл
+├── models.py        # Моделі даних
+├── controllers.py   # Контролер
+├── templates/       # Шаблони (HTML)
+    └── index.html   # Головна сторінка
+from flask import Flask
+from controllers import HomeController
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return HomeController().index()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+from flask import render_template
+from models import Item
+
+class HomeController:
+    def index(self):
+        items = Item.get_all_items()
+        return render_template('index.html', items=items)
+class Item:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    @staticmethod
+    def get_all_items():
+        return [Item('Item 1', 50), Item('Item 2', 100)]
+<h1>Items List</h1>
+<ul>
+    {% for item in items %}
+    <li>{{ item.name }} - ${{ item.price }}</li>
+    {% endfor %}
+</ul>
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/your-username/your-repository.git
+git push -u origin master
